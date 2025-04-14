@@ -1,80 +1,79 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 function ExpenseForm({ onAddExpense }) {
   const [formData, setFormData] = useState({
-    description: '',
-    amount: '',
-    category: '',
+    title: "",
+    description: "",
+    category: "",
+    amount: "",
+    date: "",
   });
 
-  function handleChange(e) {
+  const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
+    setFormData((prev) => ({
+      ...prev,
       [name]: value,
-    });
-  }
+    }));
+  };
 
-  function handleSubmit(e) {
+  const handleSubmit = (e) => {
     e.preventDefault();
+    if (
+      !formData.title ||
+      !formData.description ||
+      !formData.category ||
+      !formData.amount ||
+      !formData.date
+    )
+      return;
 
-    if (formData.description && formData.amount && formData.category) {
-      const newExpense = {
-        ...formData,
-        id: Date.now(), 
-      };
-
-      onAddExpense(newExpense); 
-      setFormData({ description: '', amount: '', category: '' }); 
-      
-    }
-  }
+    onAddExpense(formData);
+    setFormData({
+      title: "",
+      description: "",
+      category: "",
+      amount: "",
+      date: "",
+    });
+  };
 
   return (
-    <form onSubmit={handleSubmit} style={{ marginBottom: '30px' }}>
+    <form onSubmit={handleSubmit}>
       <input
-        type="text"
+        name="title"
+        value={formData.title}
+        onChange={handleChange}
+        placeholder="Expense title"
+      />
+      <input
         name="description"
         value={formData.description}
         onChange={handleChange}
-        placeholder="Description"
-        style={inputStyle}
+        placeholder="Enter expense description"
       />
       <input
-        type="number"
-        name="amount"
-        value={formData.amount}
-        onChange={handleChange}
-        placeholder="Amount"
-        style={inputStyle}
-      />
-      <input
-        type="text"
         name="category"
         value={formData.category}
         onChange={handleChange}
-        placeholder="Category"
-        style={inputStyle}
+        placeholder="Enter expense category"
       />
-      <button type="submit" style={buttonStyle}>Add Expense</button>
+      <input
+        name="amount"
+        type="number"
+        value={formData.amount}
+        onChange={handleChange}
+        placeholder="Enter amount"
+      />
+      <input
+        name="date"
+        type="date"
+        value={formData.date}
+        onChange={handleChange}
+      />
+      <button type="submit">Submit</button>
     </form>
   );
 }
-
-const inputStyle = {
-  marginRight: '10px',
-  padding: '8px',
-  borderRadius: '6px',
-  border: '1px solid #ccc',
-};
-
-const buttonStyle = {
-  padding: '8px 12px',
-  border: 'none',
-  borderRadius: '6px',
-  backgroundColor: '#3b82f6',
-  color: 'white',
-  cursor: 'pointer',
-};
 
 export default ExpenseForm;
