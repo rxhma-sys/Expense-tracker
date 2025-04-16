@@ -1,30 +1,30 @@
 import React from 'react';
 
-function ExpenseTable({ expenses }) {
+const ExpenseTable = ({ expenses, onDelete }) => {
   return (
     <table>
       <thead>
         <tr>
-          <th>Expense</th>
-          <th>Description</th>
-          <th>Category</th>
+          <th>Title</th>
           <th>Amount</th>
           <th>Date</th>
+          <th>Action</th>
         </tr>
       </thead>
       <tbody>
-        {expenses.map((expense, index) => (
-          <tr key={index}>
-            <td>{expense.title}</td>
-            <td>{expense.description}</td>
-            <td>{expense.category}</td>
-            <td>{expense.amount}</td>
-            <td>{expense.date}</td>
+        {expenses.map(exp => (
+          <tr key={exp.id}>
+            <td>{exp.title}</td>
+            <td>ksh{exp.amount}</td>
+            <td>{exp.date}</td>
+            <td>
+              <button onClick={() => onDelete(exp.id)}>Delete</button>
+            </td>
           </tr>
         ))}
       </tbody>
     </table>
   );
-}
+};
 
 export default ExpenseTable;

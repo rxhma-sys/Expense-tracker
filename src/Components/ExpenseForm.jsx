@@ -1,79 +1,32 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
-function ExpenseForm({ onAddExpense }) {
-  const [formData, setFormData] = useState({
+const ExpenseForm = ({ onAddExpense }) => {
+  const [form, setForm] = useState({
     title: "",
-    description: "",
-    category: "",
     amount: "",
-    date: "",
+    date: ""
   });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    setForm(prev => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (
-      !formData.title ||
-      !formData.description ||
-      !formData.category ||
-      !formData.amount ||
-      !formData.date
-    )
-      return;
-
-    onAddExpense(formData);
-    setFormData({
-      title: "",
-      description: "",
-      category: "",
-      amount: "",
-      date: "",
-    });
+    if (!form.title || !form.amount || !form.date) return;
+    onAddExpense(form);
+    setForm({ title: "", amount: "", date: "" });
   };
 
   return (
     <form onSubmit={handleSubmit}>
-      <input
-        name="title"
-        value={formData.title}
-        onChange={handleChange}
-        placeholder="Expense title"
-      />
-      <input
-        name="description"
-        value={formData.description}
-        onChange={handleChange}
-        placeholder="Enter expense description"
-      />
-      <input
-        name="category"
-        value={formData.category}
-        onChange={handleChange}
-        placeholder="Enter expense category"
-      />
-      <input
-        name="amount"
-        type="number"
-        value={formData.amount}
-        onChange={handleChange}
-        placeholder="Enter amount"
-      />
-      <input
-        name="date"
-        type="date"
-        value={formData.date}
-        onChange={handleChange}
-      />
-      <button type="submit">Submit</button>
+      <input name="title" value={form.title} onChange={handleChange} placeholder="Title" />
+      <input name="amount" value={form.amount} onChange={handleChange} placeholder="Amount" type="number" />
+      <input name="date" value={form.date} onChange={handleChange} placeholder="Date" type="date" />
+      <button type="submit">Add Expense</button>
     </form>
   );
-}
+};
 
 export default ExpenseForm;
